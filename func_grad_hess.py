@@ -1,12 +1,14 @@
 import tensorflow.compat.v1 as tf
+tf.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+
 
 tf.disable_v2_behavior()
 
 
-def main(data_x):
+def count(data_x, function):
     x = tf.placeholder(shape=[len(data_x)], dtype=tf.float32, name="x")
 
-    func = tf.reduce_mean(x * x * x)
+    func = function(x)
     gradients = tf.gradients(func, x)
     hessians = tf.hessians(func, x)
 
@@ -31,4 +33,4 @@ def main(data_x):
     return func_value, gradients_value, hessians_value
 
 
-print(*main([-10., 20., 30.]), sep="\n")
+print(*count([-10., 20., 30.], lambda x: tf.reduce_sum(x * x * x) / 3), sep="\n")
