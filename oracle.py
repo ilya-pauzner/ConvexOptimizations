@@ -1,28 +1,28 @@
 import numpy as np
+from func_grad_hess import *
 
 
 class BaseSmoothOracle(object):
-    """
-    Base class for implementation of oracles.
-    """
+    def __init__(self, function):
+        self.function = function
 
     def func(self, x):
         """
         Computes the value of function at point x.
         """
-        raise NotImplementedError('Func oracle is not implemented.')
+        return count(x, self.function)[0]
 
     def grad(self, x):
         """
         Computes the gradient at point x.
         """
-        raise NotImplementedError('Grad oracle is not implemented.')
+        return count(x, self.function)[1]
 
     def hess(self, x):
         """
         Computes the Hessian matrix at point x.
         """
-        raise NotImplementedError('Hessian oracle is not implemented.')
+        return count(x, self.function)[2]
 
     def func_directional(self, x, d, alpha):
         """
