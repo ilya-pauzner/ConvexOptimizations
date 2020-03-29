@@ -33,4 +33,5 @@ def count(data_x, function):
     return func_value, gradients_value, hessians_value
 
 
-print(*count([-10., 20., 30.], lambda x: tf.reduce_sum(x * x * x) / 3), sep="\n")
+if __name__ == '__main__':
+    print(*count([-10., 20., 30.], lambda x: tf.reduce_sum(x * x * x) / 3), sep="\n")
