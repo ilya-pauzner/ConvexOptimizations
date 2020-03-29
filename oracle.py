@@ -41,3 +41,49 @@ class BaseSmoothOracle(object):
         Computes matrix-vector product with Hessian matrix f''(x) v
         """
         return self.hess(x).dot(v)
+
+
+def apply_func(x, phi):
+    # [1, 2, 3, 4] -> [4, 1, 2, 3]
+    y = tf.roll(x, shift=1, axis=0)
+
+    # applying func
+    z = phi(y)
+
+    # assigning one to z[0]
+    mask_python = [False] * x.shape[0]
+    mask_python[0] = True
+    mask = tf.constant(mask_python, dtype=tf.bool)
+    ones = tf.ones(x.shape[0])
+    fixed_z = tf.where(mask, ones, z)
+
+    # returning norm of x - fixed_z
+    return tf.norm(x - fixed_z)
+
+
+def chebyshev(x):
+    return 2 * x * x - 1
+
+
+def trigonometry(x):
+    return -tf.math.cos(np.pi * x)
+
+
+if __name__ == '__main__':
+    x = [25.3, 20.2, 30.1, 27.6]
+
+    oracle_cheb = BaseSmoothOracle(lambda x: apply_func(x, chebyshev))
+    print("Chebyshev")
+    print(oracle_cheb.func(x))
+    print(oracle_cheb.grad(x))
+    print(oracle_cheb.hess(x))
+    print("Chebyshev")
+
+    print()
+
+    oracle_trig = BaseSmoothOracle(lambda x: apply_func(x, trigonometry))
+    print("Trigonometry")
+    print(oracle_trig.func(x))
+    print(oracle_trig.grad(x))
+    print(oracle_trig.hess(x))
+    print("Trigonometry")
