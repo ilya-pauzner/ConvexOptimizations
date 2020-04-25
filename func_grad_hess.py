@@ -16,22 +16,7 @@ def count(data_x, function):
     sess = tf.Session()
     sess.run(tf.global_variables_initializer())
 
-    func_value = sess.run(func,
-                          feed_dict={
-                              x: data_x
-                          }
-                          )
-    gradients_value = sess.run(gradients,
-                               feed_dict={
-                                   x: data_x
-                               }
-                               )
-    hessians_value = sess.run(hessians,
-                              feed_dict={
-                                  x: data_x
-                              }
-                              )
-    return func_value, gradients_value, hessians_value
+    return sess.run([func, gradients, hessians], feed_dict={x: data_x})
 
 
 if __name__ == '__main__':
