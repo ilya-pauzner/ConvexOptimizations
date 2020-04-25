@@ -3,7 +3,7 @@ import numpy as np
 import scipy.linalg as sla
 
 
-def do_newton(func, dimension, x0=None, max_iter=1000, tolerance=1e-4, eta=1e-1):
+def do_newton(func, dimension, x0=None, max_iter=1000, tolerance=1e-4, eta=5e-1):
     losses = []
     if x0 is None:
         x0 = np.array([1.0] * dimension, dtype=np.float64)
