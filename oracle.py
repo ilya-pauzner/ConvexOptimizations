@@ -10,19 +10,19 @@ class BaseSmoothOracle(object):
         """
         Computes the value of function at point x.
         """
-        return count(x, self.function)[0]
+        return count(tuple(x), self.function)[0]
 
     def grad(self, x):
         """
         Computes the gradient at point x.
         """
-        return count(x, self.function)[1]
+        return count(tuple(x), self.function)[1]
 
     def hess(self, x):
         """
         Computes the Hessian matrix at point x.
         """
-        return count(x, self.function)[2]
+        return count(tuple(x), self.function)[2]
 
     def func_directional(self, x, d, alpha):
         """

@@ -1,10 +1,11 @@
 import tensorflow.compat.v1 as tf
+import functools
 # tf.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
 tf.disable_v2_behavior()
 
-
+@functools.lru_cache()
 def count(data_x, function):
     x = tf.placeholder(shape=[len(data_x)], dtype=tf.float32, name="x")
 
