@@ -1,7 +1,7 @@
 from oracle import *
 
 
-def do_gradient_descent(function, dimension, x0=None, max_iter = 1000, tolerance=1e-4, eta=np.float64(1e-1)):
+def do_gradient_descent(function, dimension, x0=None, max_iter=1000, tolerance=1e-4, eta=1e-1):
     iters = 0
     losses = []
     if x0 is None:
