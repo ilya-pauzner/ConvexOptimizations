@@ -6,12 +6,12 @@ import scipy.linalg as sla
 def do_newton(func, dimension, x0=None, max_iter=1000, tolerance=1e-4, eta=5e-1):
     losses = []
     if x0 is None:
-        x0 = np.array([1.0] * dimension, dtype=np.float64)
+        x0 = np.array([0.57179] * dimension, dtype=np.float64)
     oracle_ = oracle.BaseSmoothOracle(func)
 
     for i in range(max_iter):
         loss = oracle_.func(x0)
-        print(loss)
+        print("point:", x0, "loss:", loss)
         losses.append(loss)
 
         hess = np.array(oracle_.hess(x0)[0])
@@ -31,3 +31,6 @@ if __name__ == '__main__': # testing
     print(do_newton(lambda x: x * x, 1))
     print(do_newton(lambda x: x[0] * x[0] + x[1] * x[1], 2))
     print(do_newton(lambda x: 6 * x[0] * x[0] + x[1] * x[1], 2))
+    #print(do_newton(lambda x: oracle.apply_func(x, oracle.chebyshev), 2, eta=1e-2))
+    print(do_newton(lambda x: oracle.apply_func(x, oracle.trigonometry), 2, eta=1e-2))
+
