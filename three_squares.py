@@ -10,10 +10,9 @@ def psi_cup(x0, L, addend, oracle_):
     return loss
 
 
-def optimize_psi_cup(x0, i, oracle_, magic_const):
+def optimize_psi_cup(x0, L, i, oracle_, magic_const):
     best_y = None
     best_y_loss = None
-    L = 1
     for j in range(magic_const):
         addend = np.random.rand(*x0.shape)
         addend /= np.linalg.norm(addend)
@@ -35,8 +34,9 @@ def do_3squares(func, dimension, x0=None, max_iter=1000, tolerance=2e-3, eta=5e-
         x0 = np.array([0.57179] * dimension, dtype=np.float64)
     oracle_ = oracle.BaseSmoothOracle(func)
 
+    L = 1
     for i in range(max_iter):
-        best_y, best_y_loss = optimize_psi_cup(x0, i, oracle_, magic_const)
+        best_y, best_y_loss = optimize_psi_cup(x0, L, i, oracle_, magic_const)
 
         if np.linalg.norm(best_y - x0) < tolerance:
             break
