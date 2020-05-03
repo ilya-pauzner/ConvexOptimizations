@@ -43,7 +43,7 @@ class BaseSmoothOracle(object):
         return self.hess(x).dot(v)
 
 
-def apply_func(x, phi):
+def apply_func_F(x, phi):
     # [1, 2, 3, 4] -> [4, 1, 2, 3]
     y = tf.roll(x, shift=1, axis=0)
 
@@ -58,8 +58,11 @@ def apply_func(x, phi):
     fixed_z = tf.where(mask, ones, z)
 
     # returning norm of x - fixed_z
-    return tf.norm(x - fixed_z)
+    return x - fixed_z
 
+
+def apply_func(x, phi):
+    return tf.norm(apply_func_F(x, phi))
 
 def chebyshev(x):
     return 2 * x * x - 1
