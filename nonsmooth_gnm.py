@@ -4,7 +4,7 @@ import oracle
 
 
 # here func is F, not f=tf.norm(F)
-def do_nonsmooth_gnm(func, dimension, x0=None, max_iter=1000, tolerance=2e-3, eta=5e-1):
+def do_nonsmooth_gnm(func, dimension, x0=None, max_iter=1000, tolerance=2e-3, eta=5e-1, magic_const=100):
     losses = []
     if x0 is None:
         x0 = np.array([0.57179] * dimension, dtype=np.float64)
@@ -14,7 +14,7 @@ def do_nonsmooth_gnm(func, dimension, x0=None, max_iter=1000, tolerance=2e-3, et
         best_y = None
         best_y_loss = None
         L = 1
-        for j in range(100):
+        for j in range(magic_const):
             addend = np.random.rand(*x0.shape)
             addend /= np.linalg.norm(addend)
             addend *= np.linalg.norm(x0)
