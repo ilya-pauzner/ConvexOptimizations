@@ -27,6 +27,7 @@ def do_newton(func, dimension, x0=None, max_iter=1000, tolerance=1e-4, eta=5e-1)
 
     return x0
 
+
 if __name__ == '__main__': # testing
     print(do_newton(lambda x: x * x, 1))
     print(do_newton(lambda x: x[0] * x[0] + x[1] * x[1], 2))

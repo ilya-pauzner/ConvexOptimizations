@@ -1,6 +1,7 @@
 import oracle
 import numpy as np
 
+
 # here func is F, not f=tf.norm(F)
 def do_3squares(func, dimension, x0=None, max_iter=1000, tolerance=2e-3, eta=5e-1):
     losses = []
@@ -37,6 +38,7 @@ def do_3squares(func, dimension, x0=None, max_iter=1000, tolerance=2e-3, eta=5e-
         losses.append(loss)
 
     return x0
+
 
 if __name__ == '__main__': # testing
     print(do_3squares(lambda x: oracle.apply_func_F(x, oracle.trigonometry), 2, eta=1e-2))

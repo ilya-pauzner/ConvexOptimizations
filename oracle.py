@@ -64,6 +64,7 @@ def apply_func_F(x, phi):
 def apply_func(x, phi):
     return tf.norm(apply_func_F(x, phi))
 
+
 def chebyshev(x):
     return 2 * x * x - 1
 
