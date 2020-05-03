@@ -1,14 +1,15 @@
 from oracle import *
 
 
-def do_gradient_descent(function, dimension, x0=None, max_iter=1000, tolerance=1e-4, eta=1e-1):
-    iters = 0
+def do_gradient_descent(function, dimension, oracle=None, x0=None, max_iter=1000, tolerance=1e-4, eta=1e-1):
+    iterations = 0
     losses = []
     if x0 is None:
         x0 = np.array([0.57179] * dimension, dtype=np.float64)
-    oracle = BaseSmoothOracle(function)
-    while iters < max_iter:
-        iters += 1
+    if oracle is None:
+        oracle = BaseSmoothOracle(function)
+    while iterations < max_iter:
+        iterations += 1
         loss = oracle.func(x0)
         print("point:", x0, "loss:", loss)
         losses.append(loss)
