@@ -61,8 +61,13 @@ def apply_func_F(x, phi):
     return x - fixed_z
 
 
-def apply_func(x, phi):
-    return tf.norm(apply_func_F(x, phi))
+def apply_func(x, phi, mask_python=None):
+    F = apply_func_F(x, phi)
+    if mask_python is None:
+        mask_python = [True] * x.shape[0]
+    mask = tf.constant(mask_python, dtype=tf.bool)
+    masked_F = tf.boolean_mask(F, mask)
+    return tf.norm(masked_F)
 
 
 def chebyshev(x):
