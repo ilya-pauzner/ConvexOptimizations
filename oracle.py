@@ -11,6 +11,9 @@ class BaseSmoothOracle(object):
         Computes the value of function at point x.
         """
         return count(tuple(x), self.function)[0]
+    
+    def __call__(self, x):
+        return self.func(x)
 
     def grad(self, x):
         """
