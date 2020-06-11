@@ -29,7 +29,8 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
             gamma = 1 / gamma
             B_inv = np.linalg.inv(np.eye(G.shape[0]) + gamma * G.dot(G.T)) / L / (2 ** i_k)
             T = x0 - B_inv.dot(tuple(np.array(f_1_cup.grad(x0)).T)).reshape(x0.shape)
-            print('iter:', iter, 'loss:', f_1_cup(T))
+            losses.append(f_1_cup(T))
+            print('iter:', iter, 'loss:', losses[-1])
             phi = lambda y: f_1_cup(x0) + np.dot(f_1_cup.grad(x0), y - x0) + \
                             (np.linalg.norm(G.T.dot(y - x0)) ** 2) / p / 2 / f_1_cup(x0)
             psi = lambda y: phi(y) + 2 ** i_k * L / 2 * np.linalg.norm(y - x0) ** 2
@@ -40,13 +41,11 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
             break
         x0 = T
         L *= 2 ** (i_k - 1)
-    return x0
+    return x0, iter, losses
 
 
 if __name__ == "__main__":
-    #do_method([lambda x: x[0] * x[0], lambda x: x[1] * x[1]], 2, BaseSmoothOracle(lambda x:
-     #                                             tf.norm([x[0] ** 2, x[1] ** 2])),p=1)
     f1 = lambda x: 2.7 ** x[0] + 2.7 ** (-x[0])
     f2 = lambda x: x[1] * x[1]
     f_norm = lambda x: tf.norm([f1(x), f2(x)])
-    print(do_method([f1, f2], 2, BaseSmoothOracle(f_norm), p=1))
+    print(do_method([f1, f2], 2, BaseSmoothOracle(f_norm), p=1)[0])
