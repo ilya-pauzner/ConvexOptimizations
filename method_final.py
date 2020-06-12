@@ -6,7 +6,7 @@ import tensorflow as tf
 import math
 
 
-def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter=1000, tolerance=2e-3):
+def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter=1000, tolerance=2e-3, do_print=True):
     losses = []
     if x0 is None:
         x0 = np.array([0.57179] * dimension, dtype=np.float64)
@@ -29,7 +29,8 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
             B_inv = np.linalg.inv(np.eye(G.shape[0]) + gamma * G.dot(G.T)) / L / (2 ** i_k)
             T = x0 - B_inv.dot(tuple(np.array(f_1_cup.grad(x0)).T)).reshape(x0.shape)
             losses.append(f_1_cup(T))
-            print('iter:', iter, 'loss:', losses[-1])
+            if do_print:
+                print('iter:', iter, 'loss:', losses[-1])
             phi = lambda y: f_1_cup(x0) + np.dot(f_1_cup.grad(x0), y - x0) + \
                             (np.linalg.norm(G.T.dot(y - x0)) ** 2) / p / 2 / f_1_cup(x0)
             psi = lambda y: phi(y) + 2 ** i_k * L / 2 * np.linalg.norm(y - x0) ** 2

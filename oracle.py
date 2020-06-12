@@ -5,11 +5,15 @@ from func_grad_hess import *
 class BaseSmoothOracle(object):
     def __init__(self, function):
         self.function = function
+        self.func_calls = 0
+        self.grad_calls = 0
+        self.hess_calls = 0
 
     def func(self, x):
         """
         Computes the value of function at point x.
         """
+        self.func_calls += 1
         return count(tuple(x), self.function)[0]
     
     def __call__(self, x):
@@ -19,12 +23,14 @@ class BaseSmoothOracle(object):
         """
         Computes the gradient at point x.
         """
+        self.grad_calls += 1
         return count(tuple(x), self.function)[1]
 
     def hess(self, x):
         """
         Computes the Hessian matrix at point x.
         """
+        self.hess_calls += 1
         return count(tuple(x), self.function)[2]
 
     def func_directional(self, x, d, alpha):

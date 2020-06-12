@@ -1,10 +1,11 @@
 import math
-
+from time import time
 import tensorflow as tf
 
 import method_final
 import method_final_momentum
 from oracle import *
+
 
 test_func_1 = "lambda x: -tf.math.cos(x * math.pi)"
 test_func_2 = "lambda x: 2 * x * x - 1"
@@ -53,7 +54,7 @@ class Oracle2(BaseSmoothOracle):
 
 
 def run_test(n, p, func=test_func_1):
-    funcs = [lambda x: abs(x[0] - 1)]
+    funcs = [lambda x: (x[0] - 1)]
     funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
     f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
     oracles = None
@@ -63,7 +64,7 @@ def run_test(n, p, func=test_func_1):
         oracles = [Oracle2(i) for i in range(n)]
     f_1_cup = BaseSmoothOracle(f_1_cup)
     start_time = time()
-    x_k, iters, losses = do_method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
+    x_k, iters, losses = method_final.do_method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
     print('test of method without moments with n = %d and p = %d' % (n, p), 'and func %s' % func, 'gave the folowing results:')
     print('elapsed:', time() - start_time)
     print('min loss:', min(losses))
@@ -72,7 +73,7 @@ def run_test(n, p, func=test_func_1):
 
 
 def run_test_momentum(n, p, func=test_func_1):
-    funcs = [lambda x: abs(x[0] - 1)]
+    funcs = [lambda x: (x[0] - 1)]
     funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
     f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
     oracles = None
