@@ -55,6 +55,8 @@ def run_test(n, p, func=test_func_1):
     oracles = None
     if func == test_func_1:
         oracles = [Oracle1(i) for i in range(n)]
+    if func == test_func_2:
+        oracles = [Oracle2(i) for i in range(n)]
     x_k, iters, losses = do_method(funcs, n, BaseSmoothOracle(f_1_cup), p=p, oracles=oracles)
     return iters, losses[-1]
 
