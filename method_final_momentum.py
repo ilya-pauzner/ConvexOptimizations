@@ -6,7 +6,7 @@ from oracle import *
 
 
 # now only works with 1-dimensional funcs
-def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter=1000, tolerance=2e-1):
+def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter=1000, tolerance=2e-3):
     losses = []
     if x0 is None:
         x0 = np.array([0.57179] * dimension, dtype=np.float64)

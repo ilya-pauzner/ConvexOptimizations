@@ -1,6 +1,10 @@
-from method_final import *
-import tensorflow as tf
 import math
+
+import tensorflow as tf
+
+import method_final
+import method_final_momentum
+from oracle import *
 
 test_func_1 = "lambda x: -tf.math.cos(x * math.pi)"
 test_func_2 = "lambda x: 2 * x * x - 1"
@@ -57,10 +61,27 @@ def run_test(n, p, func=test_func_1):
         oracles = [Oracle1(i) for i in range(n)]
     if func == test_func_2:
         oracles = [Oracle2(i) for i in range(n)]
-    x_k, iters, losses = do_method(funcs, n, BaseSmoothOracle(f_1_cup), p=p, oracles=oracles)
+    x_k, iters, losses = method_final.do_method(funcs, n, BaseSmoothOracle(f_1_cup), p=p, oracles=oracles)
+    return iters, losses[-1]
+
+
+def run_test_momentum(n, p, func=test_func_1):
+    funcs = [lambda x: abs(x[0] - 1)]
+    funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
+    f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
+    oracles = None
+    if func == test_func_1:
+        oracles = [Oracle1(i) for i in range(n)]
+    if func == test_func_2:
+        oracles = [Oracle2(i) for i in range(n)]
+    x_k, iters, losses = method_final_momentum.do_method(funcs, n, BaseSmoothOracle(f_1_cup), p=p, oracles=oracles)
     return iters, losses[-1]
 
 
 if __name__ == '__main__':
+    print("FINAL METHOD")
     run_test(10, 5, func=test_func_2)
     run_test(10, 5)
+    print("FINAL METHOD MOMENTUM")
+    run_test_momentum(10, 5, func=test_func_2)
+    run_test_momentum(10, 5)
