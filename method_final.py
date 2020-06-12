@@ -46,6 +46,6 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
 
 if __name__ == "__main__":
     f1 = lambda x: 2.7 ** x[0] + 2.7 ** (-x[0])
-    f2 = lambda x: x[1]
+    f2 = lambda x: abs(x[1])
     f_norm = lambda x: tf.norm([f1(x), f2(x)])
     print(do_method([f1, f2], 2, BaseSmoothOracle(f_norm), p=1)[0])
