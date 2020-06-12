@@ -70,6 +70,7 @@ def run_test(n, p, func=test_func_1):
     print('min loss:', min(losses))
     print('iterations:', iters)
     print('calls to oracles:', f_1_cup.func_calls + f_1_cup.grad_calls + sum([oracle.func_calls + oracle.grad_calls for oracle in oracles]))
+    print()
 
 
 def run_test_momentum(n, p, func=test_func_1):
