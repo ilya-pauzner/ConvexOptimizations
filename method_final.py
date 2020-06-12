@@ -6,7 +6,6 @@ import tensorflow as tf
 import math
 
 
-# now only works with 1-dimensional funcs
 def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter=1000, tolerance=2e-3):
     losses = []
     if x0 is None:
