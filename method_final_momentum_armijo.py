@@ -68,7 +68,11 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
                 theta_best = theta
             else:
                 # localisation
+                iters = 0
                 while True:
+                    iters += 1
+                    if iters > 10:
+                        break
                     first = psi_k(0) + beta * psi_k_derivative(0) * theta1 > psi_k(theta1)
                     second = psi_k(0) + alpha * psi_k_derivative(0) * theta2 < psi_k(theta2)
                     if first:
@@ -90,7 +94,12 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
                             theta2 = theta1
 
                 # specification
+                iters = 0
                 while True:
+                    iters += 1
+                    if iters > 10:
+                        theta_best = theta
+                        break
                     theta = (theta1 + theta2) / 2
                     if psi_k(0) + beta * psi_k_derivative(0) * theta <= psi_k(theta) <= psi_k(
                             0) + alpha * psi_k_derivative(0) * theta:
