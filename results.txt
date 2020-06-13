@@ -207,3 +207,189 @@ elapsed: 676.1178758144379
 min loss: 0.0019576775
 iterations: 42
 calls to oracles: 738
+
+test of method without moments with n = 3 and p = 1 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 14.92917537689209
+min loss: 0.040019013
+iterations: 5
+calls to oracles: 126
+
+test of method without moments with n = 4 and p = 1 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 24.9019992351532
+min loss: 0.010589369
+iterations: 7
+calls to oracles: 161
+
+test of method without moments with n = 6 and p = 2 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 40.77232837677002
+min loss: 0.001981521
+iterations: 8
+calls to oracles: 182
+
+test of method without moments with n = 8 and p = 2 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 50.16153621673584
+min loss: 0.0027676993
+iterations: 8
+calls to oracles: 182
+
+test of method without moments with n = 6 and p = 2 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 52.338484048843384
+min loss: 0.17781812
+iterations: 14
+calls to oracles: 224
+
+test of method without moments with n = 8 and p = 2 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 53.44095206260681
+min loss: 0.16926385
+iterations: 11
+calls to oracles: 182
+
+test of method without moments with n = 3 and p = 1 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 57.72188711166382
+min loss: 0.00061888865
+iterations: 21
+calls to oracles: 350
+
+test of method without moments with n = 10 and p = 3 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 75.67009830474854
+min loss: 0.0013926155
+iterations: 9
+calls to oracles: 203
+
+test of method without moments with n = 12 and p = 4 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 81.28516888618469
+min loss: 0.0024453856
+iterations: 9
+calls to oracles: 196
+
+test of method without moments with n = 14 and p = 5 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 88.8575210571289
+min loss: 0.003964694
+iterations: 8
+calls to oracles: 182
+
+test of method without moments with n = 10 and p = 3 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 109.73218822479248
+min loss: 0.16677438
+iterations: 18
+calls to oracles: 280
+
+test of method without moments with n = 20 and p = 5 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 139.35665678977966
+min loss: 0.0037608128
+iterations: 9
+calls to oracles: 196
+
+test of method without moments with n = 20 and p = 4 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 140.06858921051025
+min loss: 0.004327322
+iterations: 9
+calls to oracles: 196
+
+test of method without moments with n = 25 and p = 1 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 145.74265432357788
+min loss: 0.0034492442
+iterations: 8
+calls to oracles: 182
+
+test of method without moments with n = 20 and p = 3 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 145.9250843524933
+min loss: 0.002680577
+iterations: 9
+calls to oracles: 203
+
+test of method without moments with n = 12 and p = 4 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 149.66772389411926
+min loss: 0.1660014
+iterations: 20
+calls to oracles: 308
+
+test of method without moments with n = 14 and p = 5 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 160.37513518333435
+min loss: 0.16577025
+iterations: 19
+calls to oracles: 294
+
+test of method without moments with n = 20 and p = 6 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 161.7190613746643
+min loss: 0.0023417827
+iterations: 10
+calls to oracles: 217
+
+test of method without moments with n = 25 and p = 6 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 162.19990015029907
+min loss: 0.003662576
+iterations: 9
+calls to oracles: 196
+
+test of method without moments with n = 25 and p = 5 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 176.60549879074097
+min loss: 0.0030726425
+iterations: 9
+calls to oracles: 196
+
+test of method without moments with n = 4 and p = 1 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 182.80611991882324
+min loss: 0.00048323127
+iterations: 42
+calls to oracles: 644
+
+test of method without moments with n = 25 and p = 3 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 183.1989724636078
+min loss: 0.002003407
+iterations: 9
+calls to oracles: 203
+
+test of method without moments with n = 25 and p = 4 and func lambda x: 2 * x * x - 1 gave the folowing results:
+elapsed: 197.11552238464355
+min loss: 0.0015651454
+iterations: 10
+calls to oracles: 217
+
+test of method without moments with n = 20 and p = 5 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 200.73534750938416
+min loss: 0.166114
+iterations: 17
+calls to oracles: 273
+
+test of method with extrapolation moment with n = 8 and p = 3 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 162.9328408241272
+min loss: 0.16939577
+iterations: 9
+calls to oracles: 175
+
+test of method without moments with n = 25 and p = 4 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 220.51938271522522
+min loss: 0.16581109
+iterations: 15
+calls to oracles: 238
+
+test of method without moments with n = 20 and p = 4 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 224.34335255622864
+min loss: 0.16581418
+iterations: 19
+calls to oracles: 294
+
+test of method without moments with n = 20 and p = 3 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 232.1684272289276
+min loss: 0.16593876
+iterations: 18
+calls to oracles: 287
+
+test of method without moments with n = 25 and p = 3 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 236.02229380607605
+min loss: 0.16600797
+iterations: 16
+calls to oracles: 252
+
+test of method with extrapolation moment with n = 6 and p = 2 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 202.93345975875854
+min loss: 0.17757584
+iterations: 13
+calls to oracles: 232
+
+test of method without moments with n = 20 and p = 6 and func lambda x: -tf.math.cos(x * math.pi) gave the folowing results:
+elapsed: 270.73677253723145
+min loss: 0.16566004
+iterations: 21
+calls to oracles: 322
