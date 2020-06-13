@@ -48,10 +48,12 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
         if y is None:
             y = T
         else:
+            @functools.lru_cache()
             def psi_k(theta):
                 x1 = x0 + theta * (x0 - prev_x)
                 return f_1_cup(x1)
 
+            @functools.lru_cache()
             def psi_k_derivative(theta):
                 return (psi_k(theta + 0.01) - psi_k(theta - 0.01)) / 0.02
 
