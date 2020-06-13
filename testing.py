@@ -1,11 +1,11 @@
 import math
+import multiprocessing
 from time import time
 
 import tensorflow as tf
 
 import method_final
 import method_final_momentum
-import method_final_momentum_armijo
 from oracle import *
 
 test_func_1 = "lambda x: -tf.math.cos(x * math.pi)"
@@ -54,7 +54,12 @@ class Oracle2(BaseSmoothOracle):
             return res
 
 
-def run_test(n, p, func=test_func_1):
+def init(l):
+    global lock
+    lock = l
+
+
+def run_test(n, p, func=test_func_1, method=method_final.do_method, method_name='without moments'):
     funcs = [lambda x: (x[0] - 1)]
     funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
     f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
@@ -65,66 +70,38 @@ def run_test(n, p, func=test_func_1):
         oracles = [Oracle2(i) for i in range(n)]
     f_1_cup = BaseSmoothOracle(f_1_cup)
     start_time = time()
-    x_k, iters, losses = method_final.do_method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
-    print('test of method without moments with n = %d and p = %d' % (n, p), 'and func %s' % func, 'gave the folowing results:')
-    print('elapsed:', time() - start_time)
-    print('min loss:', min(losses))
-    print('iterations:', iters)
-    print('calls to oracles:', f_1_cup.func_calls + f_1_cup.grad_calls + sum([oracle.func_calls + oracle.grad_calls for oracle in oracles]))
-    print()
+    x_k, iters, losses = method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
+
+    with lock:
+        print('test of method %s with n = %d and p = %d' % (method_name, n, p), 'and func %s' % func,
+              'gave the folowing results:')
+        print('elapsed:', time() - start_time)
+        print('min loss:', min(losses))
+        print('iterations:', iters)
+        print('calls to oracles:', f_1_cup.func_calls + f_1_cup.grad_calls + sum(
+            [oracle.func_calls + oracle.grad_calls for oracle in oracles]))
+        print()
 
 
-def run_test_momentum(n, p, func=test_func_1):
-    funcs = [lambda x: (x[0] - 1)]
-    funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
-    f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
-    oracles = None
-    if func == test_func_1:
-        oracles = [Oracle1(i) for i in range(n)]
-    if func == test_func_2:
-        oracles = [Oracle2(i) for i in range(n)]
-    f_1_cup = BaseSmoothOracle(f_1_cup)
-    start_time = time()
-    x_k, iters, losses = method_final_momentum.do_method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
-    print('test of method with extrapolation moment with n = %d and p = %d' % (n, p), 'and func %s' % func,
-          'gave the folowing results:')
-    print('elapsed:', time() - start_time)
-    print('min loss:', min(losses))
-    print('iterations:', iters)
-    print('calls to oracles:',
-          f_1_cup.func_calls + f_1_cup.grad_calls + sum([oracle.func_calls + oracle.grad_calls for oracle in oracles]))
-    print()
-
-
-def run_test_armijo_momentum(n, p, func=test_func_1):
-    funcs = [lambda x: (x[0] - 1)]
-    funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
-    f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
-    oracles = None
-    if func == test_func_1:
-        oracles = [Oracle1(i) for i in range(n)]
-    if func == test_func_2:
-        oracles = [Oracle2(i) for i in range(n)]
-    f_1_cup = BaseSmoothOracle(f_1_cup)
-    start_time = time()
-    x_k, iters, losses = method_final_momentum_armijo.do_method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
-    print('test of method with armijo moment with n = %d and p = %d' % (n, p), 'and func %s' % func,
-          'gave the folowing results:')
-    print('elapsed:', time() - start_time)
-    print('min loss:', min(losses))
-    print('iterations:', iters)
-    print('calls to oracles:',
-          f_1_cup.func_calls + f_1_cup.grad_calls + sum([oracle.func_calls + oracle.grad_calls for oracle in oracles]))
-    print()
+def helper(args):
+    return run_test(**args)
 
 
 if __name__ == '__main__':
-    print("FINAL METHOD")
-    run_test(10, 5, func=test_func_2)
-    run_test(10, 5)
-    print("FINAL METHOD MOMENTUM")
-    run_test_momentum(10, 5, func=test_func_2)
-    run_test_momentum(10, 5)
-    print("FINAL METHOD ARMIJO MOMENTUM")
-    run_test_armijo_momentum(10, 5, func=test_func_2)
-    run_test_armijo_momentum(10, 5)
+    args = [
+        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+
+        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+
+        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with armijo moment'},
+    ]
+
+    with multiprocessing.Pool(initializer=init, initargs=(multiprocessing.Lock(),)) as p:
+        p.map(helper, args)
