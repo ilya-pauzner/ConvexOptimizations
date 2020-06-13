@@ -60,7 +60,7 @@ def do_method(funcs, dimension, f_1_cup, p=None, oracles=None, x0=None, max_iter
             theta_zero = 0
             theta_one = 1
 
-            while psi_k_derivative_sign(theta_one) < 0 and psi_k([theta_one]) < psi_k([theta_zero]):
+            while psi_k_derivative_sign(theta_one) < 0 and psi_k(theta_one) < psi_k(theta_zero):
                 theta_zero = theta_one
                 theta_one = 2 * theta_zero
             y = x0 + theta_one * (x0 - prev_x)
