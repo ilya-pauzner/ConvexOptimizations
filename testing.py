@@ -1,11 +1,11 @@
 import math
 from time import time
+
 import tensorflow as tf
 
 import method_final
 import method_final_momentum
 from oracle import *
-
 
 test_func_1 = "lambda x: -tf.math.cos(x * math.pi)"
 test_func_2 = "lambda x: 2 * x * x - 1"
@@ -82,8 +82,17 @@ def run_test_momentum(n, p, func=test_func_1):
         oracles = [Oracle1(i) for i in range(n)]
     if func == test_func_2:
         oracles = [Oracle2(i) for i in range(n)]
-    x_k, iters, losses = method_final_momentum.do_method(funcs, n, BaseSmoothOracle(f_1_cup), p=p, oracles=oracles)
-    return iters, losses[-1]
+    f_1_cup = BaseSmoothOracle(f_1_cup)
+    start_time = time()
+    x_k, iters, losses = method_final_momentum.do_method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
+    print('test of method with extrapolation moment with n = %d and p = %d' % (n, p), 'and func %s' % func,
+          'gave the folowing results:')
+    print('elapsed:', time() - start_time)
+    print('min loss:', min(losses))
+    print('iterations:', iters)
+    print('calls to oracles:',
+          f_1_cup.func_calls + f_1_cup.grad_calls + sum([oracle.func_calls + oracle.grad_calls for oracle in oracles]))
+    print()
 
 
 if __name__ == '__main__':
