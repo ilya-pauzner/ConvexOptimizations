@@ -6,6 +6,7 @@ import tensorflow as tf
 
 import method_final
 import method_final_momentum
+import method_final_momentum_armijo
 from oracle import *
 
 test_func_1 = "lambda x: -tf.math.cos(x * math.pi)"
@@ -89,17 +90,80 @@ def helper(args):
 
 if __name__ == '__main__':
     args = [
+        {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
         {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+
+        {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
         {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
 
+        {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
         {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+
+        {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final_momentum.do_method,
          'method_name': 'with extrapolation moment'},
         {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum.do_method,
          'method_name': 'with extrapolation moment'},
+        {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
+        {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final_momentum.do_method,
+         'method_name': 'with extrapolation moment'},
 
-        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum.do_method,
+        {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
          'method_name': 'with armijo moment'},
-        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum.do_method,
+        {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+
+        {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
+         'method_name': 'with armijo moment'},
+        {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
          'method_name': 'with armijo moment'},
     ]
 
