@@ -1,0 +1,43 @@
+,method,func,n,p,elapsed,min_loss,iterations,calls_to_oracles
+0,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",3,2,38.96729135513306,0.00027907660114578903,16,287
+1,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",4,2,67.75883340835571,0.0009599211043678224,22,357
+2,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",6,3,44.30959630012512,0.17795200645923615,13,210
+3,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",8,4,87.92800426483154,0.16932643949985504,20,301
+4,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",10,5,102.772873878479,0.16668842732906342,19,294
+5,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",12,6,104.38284301757812,0.1664157211780548,16,259
+6,without_moments,"""lambda x: -tf.math.cos(x * math.pi)""",14,7,116.44101190567017,0.16580626368522644,17,266
+7,without_moments,"""lambda x: 2 * x * x - 1""",3,2,16.48901915550232,0.04012056440114975,7,147
+8,without_moments,"""lambda x: 2 * x * x - 1""",4,2,23.65643310546875,0.010531759820878506,8,175
+9,without_moments,"""lambda x: 2 * x * x - 1""",6,3,35.11609864234924,0.004490393679589033,7,168
+10,without_moments,"""lambda x: 2 * x * x - 1""",8,4,57.340635538101196,0.0027303395327180624,10,210
+11,without_moments,"""lambda x: 2 * x * x - 1""",10,5,57.68031549453735,0.00445494195446372,8,182
+12,without_moments,"""lambda x: 2 * x * x - 1""",12,6,71.99310445785522,0.004692375659942627,9,196
+13,without_moments,"""lambda x: 2 * x * x - 1""",14,7,85.4025936126709,0.0027996134012937546,9,203
+14,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",3,2,163.69181489944458,0.00043680466478690505,17,337
+15,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",4,2,1017.4655814170837,0.0007562872488051653,55,983
+16,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",6,3,58.9667010307312,0.17802157998085022,8,159
+17,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",8,4,131.06406664848328,0.17162242531776428,12,223
+18,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",10,5,196.29580640792847,0.16723684966564178,13,246
+19,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",12,6,202.02759289741516,0.16621629893779755,12,227
+20,with_extrapolation_moment,"""lambda x: -tf.math.cos(x * math.pi)""",14,7,608.5873255729675,0.1655856966972351,24,427
+21,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",3,2,118.05345964431763,0.0404769666492939,17,324
+22,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",4,2,364.28821444511414,0.011876954697072506,34,603
+23,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",6,3,150.25538158416748,0.0037244786508381367,14,283
+24,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",8,4,259.54791021347046,0.00192716671153903,18,354
+25,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",10,5,330.3469591140747,0.00408264622092247,19,363
+26,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",12,6,331.03173780441284,0.0030483664013445377,18,354
+27,with_extrapolation_moment,"""lambda x: 2 * x * x - 1""",14,7,281.25042629241943,0.005169328767806292,14,290
+28,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",3,2,130.07069969177246,0.000799146422650665,13,324
+29,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",4,2,231.00388383865356,0.00030467312899418175,16,394
+30,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",6,3,102.33040070533752,0.1781863272190094,9,205
+31,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",8,4,247.31799006462097,0.16934546828269958,14,291
+32,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",10,5,274.25413823127747,0.16674956679344177,13,279
+33,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",12,6,332.02530312538147,0.16625574231147766,13,291
+34,with_armijo_moment,"""lambda x: -tf.math.cos(x * math.pi)""",14,7,484.34435868263245,0.16578409075737,17,351
+35,with_armijo_moment,"""lambda x: 2 * x * x - 1""",3,2,45.83523869514465,0.04025660455226898,4,120
+36,with_armijo_moment,"""lambda x: 2 * x * x - 1""",4,2,156.95536470413208,0.010733221657574177,7,211
+37,with_armijo_moment,"""lambda x: 2 * x * x - 1""",6,3,130.5939769744873,0.002056149998679757,6,176
+38,with_armijo_moment,"""lambda x: 2 * x * x - 1""",8,4,196.8869616985321,0.0039220708422362804,7,210
+39,with_armijo_moment,"""lambda x: 2 * x * x - 1""",10,5,387.5200593471527,0.001053719548508525,9,278
+40,with_armijo_moment,"""lambda x: 2 * x * x - 1""",12,6,229.5291829109192,0.004585881717503071,8,224
+41,with_armijo_moment,"""lambda x: 2 * x * x - 1""",14,7,254.61454463005066,0.005356717389076948,7,207
