@@ -61,6 +61,17 @@ def init(l):
     lock = l
 
 
+def print_result(result):
+    print('test of method %s with n = %d and p = %d' % (result['method'], result['n'], result['p']),
+          'and func %s' % result['func'],
+          'gave the folowing results:')
+    print('elapsed:', result['elapsed'])
+    print('min loss:', result['min_loss'])
+    print('iterations:', result['iterations'])
+    print('calls to oracles:', result['calls_to_oracles'])
+    print()
+
+
 def run_test(n, p, func=test_func_1, method=method_final.do_method, method_name='without_moments'):
     funcs = [lambda x: (x[0] - 1)]
     funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
@@ -75,18 +86,14 @@ def run_test(n, p, func=test_func_1, method=method_final.do_method, method_name=
     x_k, iters, losses = method(funcs, n, f_1_cup, p=p, oracles=oracles, do_print=False)
 
     with lock:
-        print('test of method %s with n = %d and p = %d' % (method_name, n, p), 'and func %s' % func,
-              'gave the folowing results:')
-        print('elapsed:', time() - start_time)
-        print('min loss:', min(losses))
-        print('iterations:', iters)
-        print('calls to oracles:', f_1_cup.func_calls + f_1_cup.grad_calls + sum(
-            [oracle.func_calls + oracle.grad_calls for oracle in oracles]))
-        print()
+        result = {'method': method_name, 'func': '"' + str(func) + '"', 'n': n, 'p': p, 'elapsed': time() - start_time,
+                  'min_loss': min(losses), 'iterations': iters,
+                  'calls_to_oracles': f_1_cup.func_calls + f_1_cup.grad_calls +
+                                      sum([oracle.func_calls + oracle.grad_calls for oracle in oracles])}
 
-        return {'method': method_name, 'n': n, 'p': p, 'elapsed': time() - start_time, 'min_loss': min(losses),
-                'iterations': iters, 'calls_to_oracles': f_1_cup.func_calls + f_1_cup.grad_calls + sum(
-                [oracle.func_calls + oracle.grad_calls for oracle in oracles])}
+        print_result(result)
+
+        return result
 
 
 def helper(args):
