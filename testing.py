@@ -2,6 +2,7 @@ import math
 import multiprocessing
 from time import time
 
+import pandas as pd
 import tensorflow as tf
 
 import method_final
@@ -60,7 +61,7 @@ def init(l):
     lock = l
 
 
-def run_test(n, p, func=test_func_1, method=method_final.do_method, method_name='without moments'):
+def run_test(n, p, func=test_func_1, method=method_final.do_method, method_name='without_moments'):
     funcs = [lambda x: (x[0] - 1)]
     funcs += [eval('lambda x: (x[%d] - (%s)(x[%d]))' % (i, func, i - 1)) for i in range(1, n)]
     f_1_cup = lambda x: tf.norm([func(x) for func in funcs])
@@ -83,6 +84,10 @@ def run_test(n, p, func=test_func_1, method=method_final.do_method, method_name=
             [oracle.func_calls + oracle.grad_calls for oracle in oracles]))
         print()
 
+        return {'method': method_name, 'n': n, 'p': p, 'elapsed': time() - start_time, 'min_loss': min(losses),
+                'iterations': iters, 'calls_to_oracles': f_1_cup.func_calls + f_1_cup.grad_calls + sum(
+                [oracle.func_calls + oracle.grad_calls for oracle in oracles])}
+
 
 def helper(args):
     return run_test(**args)
@@ -90,82 +95,86 @@ def helper(args):
 
 if __name__ == '__main__':
     args = [
-        {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final.do_method, 'method_name': 'without_moments'},
 
-        {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
-        {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without moments'},
+        {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
+        {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final.do_method, 'method_name': 'without_moments'},
 
         {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
 
         {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
         {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final_momentum.do_method,
-         'method_name': 'with extrapolation moment'},
+         'method_name': 'with_extrapolation_moment'},
 
         {'n': 3, 'p': 2, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 4, 'p': 2, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 6, 'p': 3, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 8, 'p': 4, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 10, 'p': 5, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 12, 'p': 6, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 14, 'p': 7, 'func': test_func_1, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
 
         {'n': 3, 'p': 2, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 4, 'p': 2, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 6, 'p': 3, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 8, 'p': 4, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 10, 'p': 5, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 12, 'p': 6, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
         {'n': 14, 'p': 7, 'func': test_func_2, 'method': method_final_momentum_armijo.do_method,
-         'method_name': 'with armijo moment'},
+         'method_name': 'with_armijo_moment'},
     ]
 
     with multiprocessing.Pool(initializer=init, initargs=(multiprocessing.Lock(),)) as p:
-        p.map(helper, args)
+        answer = list(p.map(helper, args))
+
+    df = pd.DataFrame(columns=answer[0].keys())
+    df = df.append(answer, ignore_index=True)
+    df.to_csv('results.csv')
